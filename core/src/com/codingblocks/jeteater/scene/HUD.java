@@ -1,10 +1,13 @@
 package com.codingblocks.jeteater.scene;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
@@ -17,6 +20,8 @@ public class HUD {
     int life=3;
     int time=100;
     int score=0;
+    private StretchViewport viewport;
+    private OrthographicCamera hudCamera;
 
     Label.LabelStyle style =new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
@@ -27,6 +32,9 @@ public class HUD {
 
     public HUD() {
         stage = new Stage();
+        hudCamera=new OrthographicCamera(stage.getWidth(),stage.getHeight());
+        viewport = new StretchViewport(stage.getWidth(),stage.getHeight(),hudCamera);
+
         Table table=  new Table();
 
         Label scoreTitle = new Label("Score",style);

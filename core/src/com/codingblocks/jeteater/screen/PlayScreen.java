@@ -34,7 +34,7 @@ public class PlayScreen implements Screen {
     //2 cameras perspective and orthogonal
     //orthogonal for 2d and perspective for 3d
     private OrthographicCamera gameCam;
-    private StretchViewport viewPort;
+    private StretchViewport viewPort1,viewPort2;
 
     private LinkedList<Coin> coins = new LinkedList<Coin>();
     private LinkedList<Bomb> bombs= new LinkedList<Bomb>();
@@ -43,10 +43,11 @@ public class PlayScreen implements Screen {
         jet = new Jet();
         hud = new HUD();
         gameCam = new OrthographicCamera(EaterGame.WIDTH,EaterGame.HEIGHT);
-        viewPort = new StretchViewport(EaterGame.WIDTH,EaterGame.HEIGHT, gameCam);
+        viewPort1 = new StretchViewport(EaterGame.WIDTH,EaterGame.HEIGHT, gameCam);
         gameCam.translate(EaterGame.WIDTH/2,EaterGame.HEIGHT/2);
+//        viewPort2 = new StretchViewport(hud.stage.getWidth(),hud.stage.getHeight() ,hud.stage.getCamera());
 
-      for (int i=0;i<4;i++)
+        for (int i=0;i<4;i++)
           coins.add(new Coin());
 
       for (int i=0;i<4;i++)
@@ -123,7 +124,7 @@ public class PlayScreen implements Screen {
     private void handleInput() {
         Vector3 vector = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
         gameCam.unproject(vector);
-
+//camera sets coordinates with respect to screen density and lower coordinate wrt to lower coordinates
 //        int x = (int) Gdx.input.getX();
 //            int y = (int) (Gdx.graphics.getHeight()-Gdx.input.getY());
             jet.setGoal((int) vector.x,(int) vector.y);
@@ -132,7 +133,9 @@ public class PlayScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        viewPort.update(width,height);
+        viewPort1.update(width,height);
+//        viewPort2.update(width, height);
+
     }
 
     @Override
