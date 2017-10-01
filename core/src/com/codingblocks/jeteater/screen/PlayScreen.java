@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.codingblocks.jeteater.EaterGame;
 import com.codingblocks.jeteater.scene.HUD;
@@ -32,7 +34,7 @@ public class PlayScreen implements Screen {
     //2 cameras perspective and orthogonal
     //orthogonal for 2d and perspective for 3d
     private OrthographicCamera gameCam;
-    private Viewport viewPort;
+    private StretchViewport viewPort;
 
     private LinkedList<Coin> coins = new LinkedList<Coin>();
     private LinkedList<Bomb> bombs= new LinkedList<Bomb>();
@@ -41,6 +43,7 @@ public class PlayScreen implements Screen {
         jet = new Jet();
         hud = new HUD();
         gameCam = new OrthographicCamera(EaterGame.WIDTH,EaterGame.HEIGHT);
+        viewPort = new StretchViewport(EaterGame.WIDTH,EaterGame.HEIGHT, gameCam);
         gameCam.translate(EaterGame.WIDTH/2,EaterGame.HEIGHT/2);
 
       for (int i=0;i<4;i++)
@@ -118,15 +121,18 @@ public class PlayScreen implements Screen {
     }
 
     private void handleInput() {
-            int x = (int) Gdx.input.getX();
-            int y = (int) (Gdx.graphics.getHeight()-Gdx.input.getY());
-            jet.setGoal(x,y);
+        Vector3 vector = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+        gameCam.unproject(vector);
+
+//        int x = (int) Gdx.input.getX();
+//            int y = (int) (Gdx.graphics.getHeight()-Gdx.input.getY());
+            jet.setGoal((int) vector.x,(int) vector.y);
     }
 
 
     @Override
     public void resize(int width, int height) {
-
+        viewPort.update(width,height);
     }
 
     @Override
