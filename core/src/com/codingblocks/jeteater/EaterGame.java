@@ -13,6 +13,9 @@ public class EaterGame extends Game {
     //overlapping of all the images...tends to be very heavy so we use public static
 	//we use Game extends so that we are able to make more screens like play,pause
 
+    public static final int WIDTH=800;
+    public static final int HEIGHT=400;
+
     @Override
 	public void create () {
 		batch = new SpriteBatch();

@@ -3,6 +3,8 @@ package com.codingblocks.jeteater.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.codingblocks.jeteater.EaterGame;
 import com.codingblocks.jeteater.scene.HUD;
 import com.codingblocks.jeteater.sprite.Bomb;
@@ -26,12 +28,20 @@ public class PlayScreen implements Screen {
     private HUD hud;
     private float time=0;
 
+
+    //2 cameras perspective and orthogonal
+    //orthogonal for 2d and perspective for 3d
+    private OrthographicCamera gameCam;
+    private Viewport viewPort;
+
     private LinkedList<Coin> coins = new LinkedList<Coin>();
     private LinkedList<Bomb> bombs= new LinkedList<Bomb>();
 
     public PlayScreen() {
-      jet = new Jet();
-      hud = new HUD();
+        jet = new Jet();
+        hud = new HUD();
+        gameCam = new OrthographicCamera(EaterGame.WIDTH,EaterGame.HEIGHT);
+        gameCam.translate(EaterGame.WIDTH/2,EaterGame.HEIGHT/2);
 
       for (int i=0;i<4;i++)
           coins.add(new Coin());
@@ -61,6 +71,8 @@ public class PlayScreen implements Screen {
         EaterGame.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
+        EaterGame.batch.setProjectionMatrix(gameCam.combined);
+
         EaterGame.batch.begin();//batach is like in memeory canvas
         for(Bomb bomb :bombs){
             bomb.draw(EaterGame.batch);
@@ -80,6 +92,7 @@ public class PlayScreen implements Screen {
     private void update() {
         handleInput();
         handleEvent();
+        gameCam.update();
     }
 
     private void handleEvent() {
