@@ -1,0 +1,9 @@
+    BitmapFont createFont(int size) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("unbom.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        float density = Gdx.graphics.getDensity();
+        parameter.size = (int)(size * density);
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
+        return font;
+    }
